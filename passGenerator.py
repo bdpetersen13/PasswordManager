@@ -2,8 +2,13 @@
 import tkinter
 from tkinter import *
 import random
+import array
 
-""" PASSWORD GENERATOR GUI """
+
+############################
+""" Tkinter Initializing """
+############################
+
 
 #Creating window and giving it a title and size
 window = tkinter.Tk()
@@ -12,11 +17,15 @@ window.geometry("800x400")
 window.resizable(False, False)
 
 
+#################################
+""" Random Password Generator """
+#################################
+
+
 #Generating random password
 def randPass():
     #Clearing entry box each time to generate random password button is pressed
     passEntry.delete(0, END)
-
     """ Password Generator """
 
     #Initializing password variable
@@ -25,10 +34,10 @@ def randPass():
     passLength = int(characterEntry.get())
 
     if passLength < 12:
-        passEntry.insert(0, "Password length is not long enough")
+        passEntry.insert(0, "Length is not long enough")
 
     elif passLength > 100:
-        passEntry.insert(0, "Password length is too large")
+        passEntry.insert(0, "Length is too large")
 
     else:
         passLength = passLength
@@ -64,7 +73,6 @@ def randPass():
         #Printing the random generated password
         print(password)
 
-
         #Inserting random password into entry box
         passEntry.insert(0, password)
 
@@ -76,6 +84,11 @@ def clip():
 
     #Copying random generated password to clipboard
     window.clipboard_append(passEntry.get())
+
+
+#####################################
+""" Random Password Generator GUI """
+#####################################
 
 
 #Creating label frame and entry box for dessignated password length
