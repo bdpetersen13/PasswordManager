@@ -2,6 +2,8 @@
 import mysql.connector
 from getpass import getpass
 from sqlConnection import mysql_connection
+import tkinter
+from tkinter import *
 
 
 ####################################
@@ -52,9 +54,9 @@ def create_information():
 ####################################
 
 
-#Creating a function for returning a specific password
+#Creatting a function for returning a specific password
 def read_information():
-    #Connecting to the database
+    #Connecing to the database
     conn = mysql.connector.connect(host='localhost',
                                    user=input('Please Enter Username: '),
                                    password=getpass('Please Enter Password: '),
@@ -105,7 +107,7 @@ def update_information():
     print(conn)  #Verifying connection to the database
 
     mydb = conn
-    mycursor = mydb.cursor()
+    cursor = mydb.cursor()
 
     user_app = input(
                     'Please Enter the Name of App/Site Where You Would Like to Update the Password: '
@@ -114,24 +116,24 @@ def update_information():
                           'Please Enter the New Password: '
                           )
 
-    query = """ 
+    query = """
             UPDATE Passwords SET Password = %s WHERE Name = %s
             """
     update_data = (
-                  user_app,
                   new_password,
+                  user_app,
                   )
 
     #Executing query
-    mycursor.execute(query, update_data)
+    cursor.execute(query, update_data)
     mydb.commit()
 
     #Verifying the query has updated password in database
-    print(mycursor.rowcount, "Record Successfully Updated in Database")
+    print(cursor.rowcount, "Record Successfully Updated in Database")
 
     #Closing connection to the database
     conn.close()
-    mycursor.close()
+    cursor.close()
 
 
 #####################################
