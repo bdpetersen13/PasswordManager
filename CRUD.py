@@ -75,7 +75,7 @@ def read_information():
                     )
     pwd = (
           user_app,
-          )  #Changing user input from a string to a list for MySQL to process parameter
+          )  #Changing user input from a string to a tuple for MySQL to process parameter
 
     #Executing query
     mycursor.execute(query, pwd)
@@ -122,7 +122,7 @@ def update_information():
     update_data = (
                   new_password,
                   user_app,
-                  )
+                  ) #Changing user input from a string to a tuple for the query to process the parameter
 
     #Executing query
     cursor.execute(query, update_data)
@@ -160,7 +160,7 @@ def delete_information():
                     )
     pwd = (
           user_app,
-          )  #Changing user input from string to list for MySQL to process the parameter
+          )  #Changing user input from string to tuple for MySQL to process the parameter
 
     #Executing query
     mycursor.execute(query, pwd)
