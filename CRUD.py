@@ -17,7 +17,7 @@ def create_information():
     conn = mysql.connector.connect(host='localhost',
                                    user=input('Please Enter Username: '),
                                    password=getpass('Please Enter Password: '),
-                                   database='PasswordManager')
+                                   database=input('Please Enter the Name of Database: '))
     print(conn)  #Verifying connection to the database
 
     mydb = conn
