@@ -1,9 +1,28 @@
 #Importing necessary modules and libraries
+import base64
+from cryptography.fernet import Fernet
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import mysql.connector
-from getpass import getpass
 from sqlConnection import mysql_connection
+from getpass import getpass
 import tkinter
 from tkinter import *
+
+#Generating a symmetric encryption key that will be used to encrypt and decrypt passwords
+password_provided = "@dU9tkPcZ,[>"
+password = password_provided.encode()   #Convcerting password_propvided type to bytes
+salt = b'uY;D1]8GaXFSxiA?'
+kdf = PBKDF2HMAC (
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=salt,
+    iterations=100000,
+    backend=default_backend()
+    )
+        
+key = base64.urlsafe_b64encode(kdf.derive(password))
 
 
 ####################################
@@ -17,16 +36,16 @@ def create_information():
     conn = mysql.connector.connect(host='localhost',
                                    user=input('Please Enter Username: '),
                                    password=getpass('Please Enter Password: '),
-                                   database=input('Please Enter the Name of Database: '))
+                                   database='PasswordManager')
     print(conn)  #Verifying connection to the database
 
     mydb = conn
     mycursor = mydb.cursor()
 
     #SQL query used to insert data into the database
-    query = """ 
+    query = """
             INSERT INTO Passwords (Name, Username, Password, URL)
-            VALUES (%s, %s, %s, %s) 
+            VALUES (%s, %s, %s, %s)
             """
 
     #Getting user input for query
@@ -35,7 +54,23 @@ def create_information():
     pwd = getpass('Please Enter Password for App/Site: ')
     url = input('Please Enter URL for Site: ')
 
-    my_data = (name, username, pwd, url)
+    ### Encrypt PWD Start ###
+    
+    
+    
+    encrypted_pwd = pwd.encode()
+    
+    f = Fernet(key)
+    cipher_pwd = f.encrypt(encrypted_pwd)
+
+    ### Encrypt PWD End ###
+
+    my_data = (
+              name,
+              username,
+              cipher_pwd,
+              url
+              )
 
     #Executing query
     mycursor.execute(query, my_data)
@@ -47,7 +82,6 @@ def create_information():
     #Closing connection to the database
     conn.close()
     mycursor.close()
-
 
 ####################################
 """ Reading Password in Database """
@@ -65,7 +99,7 @@ def read_information():
 
     mydb = conn
     mycursor = mydb.cursor()
-
+    
     #SQL query to find password
     query = """
             SELECT Password FROM Passwords WHERE Name = %s
@@ -76,22 +110,29 @@ def read_information():
     pwd = (
           user_app,
           )  #Changing user input from a string to a tuple for MySQL to process parameter
-
+    
     #Executing query
     mycursor.execute(query, pwd)
 
     read_result = mycursor.fetchone()
-
-    #Printing the corresponding password for the user input
-    for x in read_result:
-        print(x)
+    print(read_result)  #Returning encrypted password
+    
+    f = Fernet(key)
+    
+    delimiter = ','
+    str_pwd = delimiter.join(read_result)
+    
+    bytes_pwd = bytes(str_pwd, 'utf-8')
+    
+    decrypted_pwd = f.decrypt(bytes_pwd)
+    final_pwd = str(decrypted_pwd, 'utf-8')     #Converting password in type bytes to string
+    print(final_pwd)    #Returning Decrypted Password
 
     #Closing connection to the database
     conn.close()
     mycursor.close()
 
 
-#NEEDS TO BE FINISHED: Currently records are not being updated in the database#
 #####################################
 """ Updating Password in Database """
 ####################################
@@ -112,17 +153,21 @@ def update_information():
     user_app = input(
                     'Please Enter the Name of App/Site Where You Would Like to Update the Password: '
                     )
-    new_password = getpass(
+    new_pwd = getpass(
                           'Please Enter the New Password: '
                           )
+
+    # cipher_key = Fernet(key)
+    bytes_pwd = bytes(new_pwd, 'utf-8')
+    cipher_pwd = cipher_key.encrypt(bytes_pwd)
 
     query = """
             UPDATE Passwords SET Password = %s WHERE Name = %s
             """
     update_data = (
-                  new_password,
+                  cipher_pwd,
                   user_app,
-                  ) #Changing user input from a string to a tuple for the query to process the parameter
+                  )
 
     #Executing query
     cursor.execute(query, update_data)
@@ -160,7 +205,7 @@ def delete_information():
                     )
     pwd = (
           user_app,
-          )  #Changing user input from string to tuple for MySQL to process the parameter
+          )  #Changing user input from string to list for MySQL to process the parameter
 
     #Executing query
     mycursor.execute(query, pwd)
@@ -172,3 +217,4 @@ def delete_information():
     #Closing connection to the database
     conn.close()
     mycursor.close()
+
