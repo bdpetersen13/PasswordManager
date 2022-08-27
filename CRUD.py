@@ -11,9 +11,9 @@ import tkinter
 from tkinter import *
 
 #Generating a symmetric encryption key that will be used to encrypt and decrypt passwords
-password_provided = "@dU9tkPcZ,[>"
+password_provided = "[]"
 password = password_provided.encode()   #Converting password_propvided type to bytes
-salt = b'uY;D1]8GaXFSxiA?'
+salt = b'[]'
 kdf = PBKDF2HMAC (
     algorithm=hashes.SHA256(),
     length=32,
