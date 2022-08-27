@@ -70,7 +70,7 @@ database=’testMyDB1’
 
 There is still much to be done with this project, and it's far from completion. The following steps of the project I intend to implement are as follows:
 
-    1.	Use a hash function on the stored passwords
+    1.	Use a ~~hash function~~ on the stored passwords
 
     2.	Create a GUI using tkinter for CRUD.py
 
