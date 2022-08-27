@@ -48,11 +48,17 @@ python CRUD.py
 
 To run the application, you will need to have the following installed:
 
-  •	Python
+  •	Python: programming language the application is written in
 
-  •	MySQL Server
+  •	MySQL Server: RDBMS used to store the data
 
-  •	Tkinter
+  •	tkinter: creating GUI interface
+  
+  • getpass: password input module that does not use echoing
+  
+  • cryptography: generating a symmetric encryption key for encrypting and decrypting passwords in the database
+  
+  • base64: encoding and decoding data
 
 
 Once you have these installed, you must set up the MySQL server. As a reminder, you will need to input your credentials as you had when you set up your MySQL Server.
