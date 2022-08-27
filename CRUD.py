@@ -158,9 +158,9 @@ def update_information():
                           'Please Enter the New Password: '
                           )
 
-    # cipher_key = Fernet(key)
-    bytes_pwd = bytes(new_pwd, 'utf-8')
-    cipher_pwd = cipher_key.encrypt(bytes_pwd)
+    encrypted_pwd = new_pwd.encode()
+    f = Fernet(key)
+    cipher_pwd = f.encrypt(encrypted_pwd)
 
     query = """
             UPDATE Passwords SET Password = %s WHERE Name = %s
