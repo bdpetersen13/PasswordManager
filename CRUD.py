@@ -83,6 +83,7 @@ def create_information():
     conn.close()
     mycursor.close()
 
+    
 ####################################
 """ Reading Password in Database """
 ####################################
