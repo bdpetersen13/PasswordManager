@@ -70,12 +70,12 @@ database=’testMyDB1’
 
 There is still much to be done with this project, and it's far from completion. The following steps of the project I intend to implement are as follows:
 
-  1.	Use ~~hash function~~ cryptography to create a symmetric encryption to encrypt and decrypt passwords being stored in the database
+:white_check_mark: 1.	Use ~~hash function~~ cryptography to create a symmetric encryption to encrypt and decrypt passwords being stored in the database
 
-  2.	Create a GUI using tkinter for CRUD.py
+   2.	Create a GUI using tkinter for CRUD.py
 
-  3.	Create a main application combining passGenerator.py and CRUD.py with a GUI using tkinter
+   3.	Create a main application combining passGenerator.py and CRUD.py with a GUI using tkinter
 
-  4.	Create a master password when accessing the password manager application, and have the master password encrypted
+   4.	Create a master password when accessing the password manager application, and have the master password encrypted
 
 
