@@ -25,9 +25,9 @@ kdf = PBKDF2HMAC (
 key = base64.urlsafe_b64encode(kdf.derive(password))
 
 
-####################################
+#####################################
 """ Creating Password in Database """
-####################################
+#####################################
 
 
 #Creating a function for storing an entry in the database
@@ -53,17 +53,11 @@ def create_information():
     username = input('Please Enter Username for App/Site: ')
     pwd = getpass('Please Enter Password for App/Site: ')
     url = input('Please Enter URL for Site: ')
-
-    ### Encrypt PWD Start ###
-    
-    
     
     encrypted_pwd = pwd.encode()
     
     f = Fernet(key)
     cipher_pwd = f.encrypt(encrypted_pwd)
-
-    ### Encrypt PWD End ###
 
     my_data = (
               name,
@@ -136,7 +130,7 @@ def read_information():
 
 #####################################
 """ Updating Password in Database """
-####################################
+#####################################
 
 
 #Creating function for updating a specific password
